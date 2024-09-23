@@ -104,7 +104,7 @@ const EditProfile = () => {
                        />
                        <Input 
                             icon={<Icon name="call" />}
-                            placeholder="Entter your phone number"
+                            placeholder="Enter your phone number"
                             value={user.phoneNumber}
                             onChangeText={value => setUser({...user, phoneNumber: value})}
                        />
