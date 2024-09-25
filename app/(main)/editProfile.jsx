@@ -29,7 +29,7 @@ const EditProfile = () => {
         if(currentUser){
             setUser({
                 name: currentUser.name || '',
-                phoneNumber: currentUser.phnoeNumber || '',
+                phoneNumber: currentUser.phoneNumber || '',
                 image: currentUser.image || '',
                 address: currentUser.address || '',
                 bio: currentUser.bio || '',

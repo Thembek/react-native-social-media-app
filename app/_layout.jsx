@@ -3,7 +3,9 @@ import { Stack, useRouter } from 'expo-router';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
 import { getUserData } from '../services/userService';
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['Warning: TNodeChildrenRenderer', 'Warning: MemorizedTNodeRenderer', 'Warning: TRenderEngineProvider'])
 const _layout = () => {
     return(
         <AuthProvider>
@@ -43,7 +45,14 @@ const MainLayout = () => {
             screenOptions={{
                 headerShown: false
             }}
-        />
+        >
+            <Stack.Screen 
+                name='(main)/postDetails'
+                options={{
+                    presentation: 'modal'
+                }}
+            />
+        </Stack>
     )
 }
 
