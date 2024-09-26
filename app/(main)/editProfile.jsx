@@ -30,7 +30,7 @@ const EditProfile = () => {
             setUser({
                 name: currentUser.name || '',
                 phoneNumber: currentUser.phoneNumber || '',
-                image: currentUser.image || '',
+                image: currentUser.image || null,
                 address: currentUser.address || '',
                 bio: currentUser.bio || '',
             });
@@ -46,7 +46,7 @@ const EditProfile = () => {
         });
 
         if(!result.canceled){
-            setUser({...user, image: result.assets[0]})
+            setUser({...user, image: result.assets[0]});
         }
     }
 

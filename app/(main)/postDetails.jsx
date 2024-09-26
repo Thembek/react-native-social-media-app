@@ -13,6 +13,7 @@ import CommentItem from '../../components/CommentItem';
 import { supabase } from '../../lib/supabase';
 import { getUserData } from '../../services/userService';
 import { createNotification } from '../../services/notificationService';
+import ScreenWrapper from '../../components/ScreenWrapper';
 
 const PostDetails = () => {
     const {postId, commentId} = useLocalSearchParams();
@@ -129,7 +130,8 @@ const PostDetails = () => {
     }
 
     return(
-        <View style={styles.container}>
+        <ScreenWrapper>
+                <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
                <PostCard item={{...post, comments: [{count: post?.comments?.length}]}} currentUser={user} router={router} hasShadow={false} showMoreIcon={false} showDelete={true} onDelete={onDeletePost} onEdit={onEditPost}/>
                <View style={styles.inputContainer}>
@@ -169,6 +171,7 @@ const PostDetails = () => {
                </View>
             </ScrollView>
         </View>
+        </ScreenWrapper>
     )
 }
 

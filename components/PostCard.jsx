@@ -1,5 +1,5 @@
 import { Alert, Image, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { theme } from '../constants/theme';
 import { hp, stringHtmlTags, wp } from '../helpers/common';
 import Avatar from './Avatar';

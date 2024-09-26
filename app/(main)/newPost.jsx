@@ -139,7 +139,7 @@ const NewPost = () => {
                     </View>
 
                     <View style={styles.textEditor}>
-                        <RichTextEditor editorRef={editorRef} onChange={body => bodyRef.current = body} />
+                        <RichTextEditor editorRef={editorRef} onChange={body=> bodyRef.current = body} />
                     </View>
 
                     {
@@ -169,10 +169,10 @@ const NewPost = () => {
                     <View style={styles.media}>
                         <Text style={styles.addImageText}>Add to your post</Text>
                         <View style={styles.mediaIcons}>
-                            <TouchableOpacity onPress={()=> onPick(true)}>
+                            <TouchableOpacity onPress={()=> onPick(false)}>
                                 <Icon name="image" size={30} color={theme.colors.dark}/>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={()=> onPick(false)}>
+                            <TouchableOpacity onPress={()=> onPick(true)}>
                                 <Icon name="video" size={33} color={theme.colors.dark} />
                             </TouchableOpacity>
                         </View>
@@ -267,5 +267,29 @@ const styles = StyleSheet.create({
         padding: 7,
         borderRadius: 50,
         backgroundColor: 'rgba(255, 0, 0, 0.6)',
-    }
+    },
+
+    richBar: {
+        borderTopRightRadius: theme.radius.xl,
+        borderTopLeftRadius: theme.radius.xl,
+        backgroundColor: theme.colors.gray,
+    },
+    rich: {
+        minHeight: 240,
+        flex: 1,
+        borderWidth: 1.5,
+        borderTopWidth: 0,
+        borderBottomLeftRadius: theme.radius.xl,
+        borderBottomRightRadius: theme.radius.xl,
+        borderColor: theme.colors.gray,
+        padding: 5,
+    },
+    contentStyle: {
+        color: theme.colors.textDark,
+        placeholderColor: 'gray',
+    },
+    flatStyle: {
+        paddingHorizontal: 8,
+        gap: 3,
+    },
 })

@@ -153,6 +153,8 @@ export const removePost = async (postId) => {
             console.log('removePost error: ', error);
             return { success: false, msg: 'Could not remove the post' }
         }
+
+        return { success: true }
     } catch (error) {
         console.log('removePost error: ', error);
         return { success: false, msg: 'Could not remove the post' }
