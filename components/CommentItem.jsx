@@ -7,7 +7,7 @@ import moment from 'moment';
 import { TouchableOpacity } from 'react-native';
 import Icon from '../assets/icons';
 
-const CommentItem = ({item, canDelete=false, onDelete=()=>{}}) => {
+const CommentItem = ({item, canDelete=false, onDelete=()=>{}, highlight=false}) => {
     const createdAt = moment(item?.created_at).format('MMM d');
 
     const handleDelete = () => {
@@ -31,7 +31,7 @@ const CommentItem = ({item, canDelete=false, onDelete=()=>{}}) => {
                 uri={item?.user?.image}
             />
 
-            <View style={styles.content}>
+            <View style={[styles.content, highlight && styles.highlight]}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                     <View style={styles.nameContainer}>
                         <Text style={styles.text}>

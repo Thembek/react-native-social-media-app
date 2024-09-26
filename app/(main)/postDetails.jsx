@@ -1,7 +1,7 @@
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { createComment, fetchPostDetails, removeComment } from '../../services/postService';
+import { createComment, fetchPostDetails, removeComment, removePost } from '../../services/postService';
 import { hp, wp } from '../../helpers/common';
 import { theme } from '../../constants/theme';
 import PostCard from '../../components/PostCard';
@@ -12,9 +12,10 @@ import Icon from '../../assets/icons';
 import CommentItem from '../../components/CommentItem';
 import { supabase } from '../../lib/supabase';
 import { getUserData } from '../../services/userService';
+import { createNotification } from '../../services/notificationService';
 
 const PostDetails = () => {
-    const {postId} = useLocalSearchParams();
+    const {postId, commentId} = useLocalSearchParams();
     const {user} = useAuth();
     const router = useRouter();
     const [startLoading, setStartLoading] = useState(true);
@@ -66,6 +67,16 @@ const PostDetails = () => {
         let res = await createComment(data);
         setLoading(false);
         if(res.success){
+            if(user.id!=post.userId){
+                let notify = {
+                    senderId: user.id,
+                    receiverId: post.userId,
+                    title: 'commented on your post',
+                    data: JSON.stringify({postId: post.id, commentId: res?.data?.id})
+                }
+
+                createNotification(notify);
+            }
             inputRef?.current?.clear();
             commentRef.current = "";
         } else {
@@ -84,6 +95,21 @@ const PostDetails = () => {
         } else {
             Alert.alert('Comment', res.msg)
         }
+    }
+
+    const onDeletePost = async (item) => {
+        let res = await removePost(post.id);
+
+        if(res.success){
+            router.back();
+        }else{
+            Alert.alert('Post', res.msg);
+        }
+    }
+
+    const onEditPost = async (item) => {
+        router.back();
+        router.push({pathname: 'newPost', params: {...item}})
     }
 
     if(startLoading){
@@ -105,7 +131,7 @@ const PostDetails = () => {
     return(
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
-               <PostCard item={{...post, comments: [{count: post?.comments?.length}]}} currentUser={user} router={router} hasShadow={false} showMoreIcon={false}/>
+               <PostCard item={{...post, comments: [{count: post?.comments?.length}]}} currentUser={user} router={router} hasShadow={false} showMoreIcon={false} showDelete={true} onDelete={onDeletePost} onEdit={onEditPost}/>
                <View style={styles.inputContainer}>
                     <Input inputRef={inputRef} placeholder="Type comment..." onChangeText={value=> commentRef.current = value} placeholderTextColor={theme.colors.textLight} containerStyle={{flex: 1, height: hp(6.2), borderRadius: theme.radius.xl}}/>
                     {
@@ -128,6 +154,7 @@ const PostDetails = () => {
                             key={comment?.id?.toString()}
                            item={comment} 
                            onDelete={onDeleteComment}
+                           highlight={comment.id == commentId}
                            canDelete={user.id == comment.userId || user.id == post.userId}
                         />
                     )
